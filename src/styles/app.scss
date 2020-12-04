@@ -1,0 +1,46 @@
+@import "./auto-clickers";
+@import "./manual-clickers";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
+    Verdana, sans-serif;
+  background: linear-gradient(to bottom, rgb(255, 255, 255), teal);
+  height: 100vh;
+  padding-top: 3%;
+  text-align: center;
+}
+button {
+  margin: 3px;
+  padding: 8px;
+  color: white;
+  outline: none;
+  border: none;
+}
+button:hover {
+  box-shadow: 0 0 10px black;
+  transform: scale(1.1);
+}
+button:active {
+  box-shadow: 0 0 10px black;
+  transform: scale(1.05);
+}
+// .main-counter::after {
+//   content: 'finger jobs completed';
+//   font-size: .7rem;
+// }
+.main-title {
+  font-size: 4rem;
+}
+.clicker-controls {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+}

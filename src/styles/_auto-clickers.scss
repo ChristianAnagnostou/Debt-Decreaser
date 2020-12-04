@@ -1,0 +1,31 @@
+.AutoClickers {
+  color: white;
+  width: fit-content;
+  height: fit-content;
+  text-align: center;
+  background: rgb(46, 46, 46);
+  padding: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+button {
+  transition: all 0.05s ease-in-out;
+}
+.increment-button {
+  background: rgb(121, 184, 121);
+}
+.decrement-button {
+  background: rgb(198, 100, 100);
+}
+
+.autoclick-item {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.autoclick-value{
+}
+.autoclick-price{
+  color: rgb(165, 165, 165);
+  font-size: .75rem;
+}
