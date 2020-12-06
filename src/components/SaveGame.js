@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const SaveGame = ({
   UsDebt,
@@ -9,9 +9,14 @@ const SaveGame = ({
   setDecrementPerSec,
   autosShouldMount,
   setAutosShouldMount,
-  megaState,
-  setMegaState,
 }) => {
+  const [megaState, setMegaState] = useState({
+    UsDebt: 0,
+    totalManualClicks: 0,
+    decrementPerSec: 0,
+    autosShouldMount: false,
+  });
+
   const saveCurrentGame = () => {
     setMegaState({
       UsDebt,
@@ -33,7 +38,7 @@ const SaveGame = ({
   };
 
   useEffect(() => {
-    if(megaState.totalManualClicks){
+    if (megaState.totalManualClicks) {
       console.log("megaState changed in SaveGame");
       sessionStorage.setItem("megaState", JSON.stringify(megaState));
       console.log(JSON.parse(sessionStorage.getItem("megaState")));

@@ -10,12 +10,6 @@ import "./styles/app.css";
 function App() {
   // State
   //Declare an object as the state
-  const [megaState, setMegaState] = useState({
-    UsDebt: 0,
-    totalManualClicks: 0,
-    decrementPerSec: 0,
-    autosShouldMount: false,
-  });
   const [UsDebt, setUsDebt] = useState(0);
   const [totalManualClicks, setTotalManualClicks] = useState(0);
   const [decrementPerSec, setDecrementPerSec] = useState(0);
@@ -36,7 +30,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("incrementor changed");
     const refreshFactor = 10;
 
     const incrementInterval = setInterval(() => {
@@ -78,8 +71,6 @@ function App() {
           setDecrementPerSec={setDecrementPerSec}
           autosShouldMount={autosShouldMount}
           setAutosShouldMount={setAutosShouldMount}
-          megaState={megaState}
-          setMegaState={setMegaState}
         />
       </div>
     </div>
