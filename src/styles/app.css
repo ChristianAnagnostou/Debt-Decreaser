@@ -20,10 +20,36 @@ button {
 
 .increment-button {
   background: #79b879;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .decrement-button {
   background: #c66464;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .autoclick-item {
@@ -40,7 +66,23 @@ button {
 
 .autoclick-price {
   color: #a5a5a5;
-  font-size: .75rem;
+  font-size: 0.75rem;
+}
+
+.autoClick-disabled {
+  background: grey;
+}
+
+.autoClick-disabled:hover {
+  -webkit-transform: none;
+          transform: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.autoClick-disabled:active {
+  -webkit-transform: none;
+          transform: none;
 }
 
 .ManualClickers {
@@ -62,6 +104,42 @@ button {
   background: #6f6f6f;
 }
 
+.debt-info-container {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  background: #2e2e2e;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.debt-info-container .debt-info-title {
+  text-decoration: underline;
+}
+
+.DebtAPI {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  bottom: 0;
+  text-align: left;
+  padding: 10px;
+  color: white;
+  line-height: 1.5rem;
+}
+
+.DebtAPI a {
+  color: grey;
+  float: right;
+  cursor: alias;
+}
+
+.display-none {
+  display: none;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -73,8 +151,8 @@ body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   background: -webkit-gradient(linear, left top, left bottom, from(white), to(teal));
   background: linear-gradient(to bottom, white, teal);
-  height: 100vh;
-  padding-top: 3%;
+  min-height: 100vh;
+  padding: 3% 0;
   text-align: center;
 }
 
@@ -84,6 +162,7 @@ button {
   color: white;
   outline: none;
   border: none;
+  cursor: pointer;
 }
 
 button:hover {
@@ -101,7 +180,11 @@ button:active {
 }
 
 .main-title {
-  font-size: 4rem;
+  font-size: 7vw;
+}
+
+.main-UsDebt {
+  font-size: 4vw;
 }
 
 .clicker-controls {
@@ -117,5 +200,25 @@ button:active {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.Save-Game {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  background: #2e2e2e;
+  padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .clicker-controls {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
 }
 /*# sourceMappingURL=app.css.map */

@@ -13,9 +13,23 @@ button {
 }
 .increment-button {
   background: rgb(121, 184, 121);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 .decrement-button {
   background: rgb(198, 100, 100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .autoclick-item {
@@ -23,9 +37,20 @@ button {
   justify-content: flex-end;
   align-items: center;
 }
-.autoclick-value{
+.autoclick-value {
 }
-.autoclick-price{
+.autoclick-price {
   color: rgb(165, 165, 165);
-  font-size: .75rem;
+  font-size: 0.75rem;
+}
+
+.autoClick-disabled {
+  background: grey;
+  &:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  &:active {
+    transform: none;
+  }
 }

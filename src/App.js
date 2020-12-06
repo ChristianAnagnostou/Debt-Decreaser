@@ -1,53 +1,86 @@
 import React, { useEffect, useState } from "react";
+// Components
 import AutoClickers from "./components/AutoClickers";
+import DebtInfoContainer from "./components/DebtInfoContainer";
 import ManualClickers from "./components/ManualClickers";
+import SaveGame from "./components/SaveGame";
+// Styles
 import "./styles/app.css";
 
 function App() {
-  const [counter, setCounter] = useState(0);
-  const [incrementSum, setIncrementSum] = useState(0);
+  // State
+  //Declare an object as the state
+  const [megaState, setMegaState] = useState({
+    UsDebt: 0,
+    totalManualClicks: 0,
+    decrementPerSec: 0,
+    autosShouldMount: false,
+  });
+  const [UsDebt, setUsDebt] = useState(0);
+  const [totalManualClicks, setTotalManualClicks] = useState(0);
+  const [decrementPerSec, setDecrementPerSec] = useState(0);
+  const [autosShouldMount, setAutosShouldMount] = useState(false);
 
-  const numberWithCommas = (x) => {
-    const roundedX = Math.round(x);
-    return roundedX.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // Converts any number into one with commas
+  const numberWithCommas = (amount) => {
+    let s = parseFloat(amount).toFixed(2);
+    return `$${s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
   };
 
-  const handleIncrementSum = (num) => {
-    setIncrementSum((prevIncrementSum) => prevIncrementSum + num);
-    if (num > 0) {
-      setCounter((prevCounter) => prevCounter - num * 100);
+  // takes object from AutoClickerItem and sets decrementPerSec and handles cost
+  const handleDecrementPerSec = ({ clickValue, costFactor }) => {
+    setDecrementPerSec(decrementPerSec - clickValue);
+    if (clickValue > 0) {
+      setUsDebt(UsDebt + clickValue * costFactor * 100);
     }
   };
 
   useEffect(() => {
     console.log("incrementor changed");
-    const refreshFactor = 50;
+    const refreshFactor = 10;
 
     const incrementInterval = setInterval(() => {
-      console.log("incrementing");
-      setCounter((prevCounter) => prevCounter + incrementSum / refreshFactor);
+      console.log("decrementing");
+      setUsDebt((prevUsDebt) => prevUsDebt + decrementPerSec / refreshFactor);
     }, 1000 / refreshFactor);
     return () => clearInterval(incrementInterval);
-  }, [incrementSum]);
+  }, [decrementPerSec]);
 
   return (
     <div className="App">
-      <h1 className="main-title">FingerSlaver</h1>
-      <h1 className='main-counter'>{numberWithCommas(counter)}</h1>
-      <p>Finger Slaves making {numberWithCommas(incrementSum)} per second</p>
+      <h1 className="main-title">Debt Destroyer</h1>
+      <h1 className="main-UsDebt">{numberWithCommas(UsDebt)}</h1>
+      <p>Decreasing the US Debt by -{numberWithCommas(Math.abs(decrementPerSec))} per second</p>
       <div className="clicker-controls">
-      <ManualClickers
-        counter={counter}
-        setCounter={setCounter}
-        numberWithCommas={numberWithCommas}
-      />
-      {counter >= 100 && (
-        <AutoClickers
-          counter={counter}
-          handleIncrementSum={handleIncrementSum}
+        <ManualClickers
+          totalManualClicks={totalManualClicks}
+          setTotalManualClicks={setTotalManualClicks}
+          setAutosShouldMount={setAutosShouldMount}
+          UsDebt={UsDebt}
+          setUsDebt={setUsDebt}
           numberWithCommas={numberWithCommas}
         />
-      )}
+        {autosShouldMount && (
+          <AutoClickers
+            totalManualClicks={totalManualClicks}
+            UsDebt={UsDebt}
+            handleDecrementPerSec={handleDecrementPerSec}
+            numberWithCommas={numberWithCommas}
+          />
+        )}
+        <DebtInfoContainer numberWithCommas={numberWithCommas} setUsDebt={setUsDebt} />
+        <SaveGame
+          UsDebt={UsDebt}
+          setUsDebt={setUsDebt}
+          totalManualClicks={totalManualClicks}
+          setTotalManualClicks={setTotalManualClicks}
+          decrementPerSec={decrementPerSec}
+          setDecrementPerSec={setDecrementPerSec}
+          autosShouldMount={autosShouldMount}
+          setAutosShouldMount={setAutosShouldMount}
+          megaState={megaState}
+          setMegaState={setMegaState}
+        />
       </div>
     </div>
   );

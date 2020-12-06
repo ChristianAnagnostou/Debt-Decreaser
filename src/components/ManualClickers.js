@@ -1,20 +1,34 @@
 import React from "react";
 
-const ManualClickers = ({ counter, setCounter, numberWithCommas }) => {
+const ManualClickers = ({
+  UsDebt,
+  setUsDebt,
+  numberWithCommas,
+  setAutosShouldMount,
+  totalManualClicks,
+  setTotalManualClicks,
+}) => {
+  const incrementValues = [1, 10, 100, 1000];
+
   const handleManualClick = (value) => {
-    setCounter((prevCounter) => prevCounter + value);
+    setTotalManualClicks(totalManualClicks + 1);
+    setUsDebt(UsDebt - value);
+    if (totalManualClicks === 100) {
+      setAutosShouldMount(true);
+    }
   };
-  const incrementValues = [10, 100, 1000, 10000, 100000, 1000000, 10000000];
 
   return (
-    <div className='ManualClickers'>
-      <h3>You Slave</h3>
-      <button onClick={() => handleManualClick(1)}>+1</button>
+    <div className="ManualClickers">
+      <h3>Manual Clicks: {totalManualClicks}</h3>
+      <button onClick={() => handleManualClick(0.01)}>-1¢</button>
+      <br />
+      {totalManualClicks >= 25 && <button onClick={() => handleManualClick(0.1)}>-10¢</button>}
       {incrementValues.map((value) => {
         return (
-          <div>
-            {counter >= value * 10 && (
-              <button onClick={() => handleManualClick(value)}>+{numberWithCommas(value)}</button>
+          <div key={`manual${value}`}>
+            {totalManualClicks >= value * 50 && (
+              <button onClick={() => handleManualClick(value)}>-{numberWithCommas(value)}</button>
             )}
           </div>
         );

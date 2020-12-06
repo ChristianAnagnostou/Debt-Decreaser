@@ -1,5 +1,6 @@
 @import "./auto-clickers";
 @import "./manual-clickers";
+@import "./debtApi";
 
 * {
   padding: 0;
@@ -11,8 +12,8 @@ body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
     Verdana, sans-serif;
   background: linear-gradient(to bottom, rgb(255, 255, 255), teal);
-  height: 100vh;
-  padding-top: 3%;
+  min-height: 100vh;
+  padding: 3% 0;
   text-align: center;
 }
 button {
@@ -21,6 +22,7 @@ button {
   color: white;
   outline: none;
   border: none;
+  cursor: pointer;
 }
 button:hover {
   box-shadow: 0 0 10px black;
@@ -30,12 +32,12 @@ button:active {
   box-shadow: 0 0 10px black;
   transform: scale(1.05);
 }
-// .main-counter::after {
-//   content: 'finger jobs completed';
-//   font-size: .7rem;
-// }
+
 .main-title {
-  font-size: 4rem;
+  font-size: 7vw;
+}
+.main-UsDebt {
+  font-size: 4vw;
 }
 .clicker-controls {
   margin-top: 10px;
@@ -43,4 +45,19 @@ button:active {
   flex-direction: row;
   gap: 10px;
   justify-content: center;
+}
+
+.Save-Game {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  background: rgb(46, 46, 46);
+  padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .clicker-controls {
+    flex-direction: column;
+    align-items: center;
+  }
 }
