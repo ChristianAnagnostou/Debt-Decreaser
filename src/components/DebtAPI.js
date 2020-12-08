@@ -22,7 +22,7 @@ export default function DebtAPI({ numberWithCommas, setUsDebt, infoIsActive }) {
   useEffect(() => {
     if (info.tot_pub_debt_out_amt) {
       setInfoIsReady(true);
-      setUsDebt(info.tot_pub_debt_out_amt);
+      setUsDebt(Number(info.tot_pub_debt_out_amt));
     }
   }, [info, setUsDebt]);
 

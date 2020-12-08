@@ -13,7 +13,7 @@ const ManualClickers = ({
   const handleManualClick = (value) => {
     setTotalManualClicks(totalManualClicks + 1);
     setUsDebt(UsDebt - value);
-    if (totalManualClicks === 100) {
+    if (totalManualClicks === 99) {
       setAutosShouldMount(true);
     }
   };

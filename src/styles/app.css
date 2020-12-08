@@ -18,7 +18,28 @@ button {
   transition: all 0.05s ease-in-out;
 }
 
-.increment-button {
+.autoclick-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.autoclick-item .autoclick-autoPerSecValue {
+  font-weight: bold;
+}
+
+.autoclick-item .autoclick-price {
+  color: #a5a5a5;
+  font-size: 0.75rem;
+}
+
+.autoclick-item .increment-button {
   background: #79b879;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -35,7 +56,7 @@ button {
   border-radius: 50%;
 }
 
-.decrement-button {
+.autoclick-item .decrement-button {
   background: #c66464;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -50,23 +71,6 @@ button {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-}
-
-.autoclick-item {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.autoclick-price {
-  color: #a5a5a5;
-  font-size: 0.75rem;
 }
 
 .autoClick-disabled {
@@ -106,8 +110,8 @@ button {
 
 .debt-info-container {
   position: absolute;
-  bottom: 5%;
-  left: 5%;
+  top: 16%;
+  right: 5%;
   background: #2e2e2e;
   cursor: pointer;
   padding: 10px;
@@ -149,11 +153,41 @@ button {
 
 body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  background: -webkit-gradient(linear, left top, left bottom, from(white), to(teal));
-  background: linear-gradient(to bottom, white, teal);
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(grey));
+  background: linear-gradient(to bottom, white, grey);
   min-height: 100vh;
   padding: 3% 0;
   text-align: center;
+}
+
+header .main-title {
+  font-size: 5vw;
+}
+
+header .main-UsDebt {
+  background: #2e2e2e;
+  color: white;
+  font-size: 4vw;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  padding: 1rem 2rem;
+  -webkit-box-shadow: 0 0 20px grey;
+          box-shadow: 0 0 20px grey;
+}
+
+header .main-debtPerSec {
+  background: #2e2e2e;
+  color: white;
+  font-size: 1.5vw;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 1rem auto 0;
+  padding: 1rem 2rem;
+  -webkit-box-shadow: 0 0 20px grey;
+          box-shadow: 0 0 20px grey;
 }
 
 button {
@@ -179,16 +213,25 @@ button:active {
           transform: scale(1.05);
 }
 
-.main-title {
-  font-size: 7vw;
+.game-container {
+  position: absolute;
+  bottom: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  width: 100%;
+  gap: 5px;
+  background: grey;
 }
 
-.main-UsDebt {
-  font-size: 4vw;
-}
-
-.clicker-controls {
-  margin-top: 10px;
+.debt-decreasors {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border: 5px solid black;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -202,23 +245,111 @@ button:active {
           justify-content: center;
 }
 
-.Save-Game {
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
+.debt-decreasors > div {
+  min-height: 10vh;
+  min-width: 12vw;
   background: #2e2e2e;
-  padding: 10px;
+  color: white;
+}
+
+.debt-increasors {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border: 5px solid black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 10px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.debt-increasors > div {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  min-height: 10vh;
+  min-width: 10vw;
+  background: #2e2e2e;
+  color: white;
+}
+
+.game-updates-container {
+  border: 5px solid black;
+  min-width: 25vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: white;
+}
+
+.game-updates-container .game-updates {
+  height: 95%;
+  width: 95%;
+  background: #2e2e2e;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  overflow: hidden;
+}
+
+.game-updates-container .game-updates p {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: white;
+  text-align: right;
+  margin: 0 1rem 1rem;
+  padding: 5px;
+  border-radius: 5px;
+  background: grey;
+}
+
+.game-updates-container .game-updates p:last-child {
+  background: #478a47;
 }
 
 @media screen and (max-width: 768px) {
-  .clicker-controls {
+  .debt-decreasors {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+  }
+  .debt-increasors {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 }
 /*# sourceMappingURL=app.css.map */

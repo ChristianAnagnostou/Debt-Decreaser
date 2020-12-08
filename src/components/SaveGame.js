@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
 const SaveGame = ({
   UsDebt,
   setUsDebt,
-  totalManualClicks,
-  setTotalManualClicks,
-  decrementPerSec,
-  setDecrementPerSec,
-  autosShouldMount,
-  setAutosShouldMount,
+  debtPerSec,
+  setDebtPerSec,
 }) => {
   const [megaState, setMegaState] = useState({
     UsDebt: 0,
-    totalManualClicks: 0,
-    decrementPerSec: 0,
-    autosShouldMount: false,
+    debtPerSec: 0,
   });
 
   const saveCurrentGame = () => {
     setMegaState({
       UsDebt,
-      totalManualClicks,
-      decrementPerSec,
-      autosShouldMount,
+      debtPerSec,
     });
   };
 
@@ -31,9 +24,7 @@ const SaveGame = ({
       const savedGame = JSON.parse(sessionStorage.getItem("megaState"));
       console.log(savedGame);
       setUsDebt(savedGame.UsDebt);
-      setTotalManualClicks(savedGame.totalManualClicks);
-      setDecrementPerSec(savedGame.decrementPerSec);
-      setAutosShouldMount(savedGame.autosShouldMount);
+      setDebtPerSec(savedGame.debtPerSec);
     }
   };
 
@@ -46,7 +37,7 @@ const SaveGame = ({
   }, [megaState]);
 
   return (
-    <div className="Save-Game">
+    <SaveGameStyles>
       <button className="save-game" onClick={() => saveCurrentGame()}>
         Save Game Locally
       </button>
@@ -54,8 +45,17 @@ const SaveGame = ({
       <button className="save-game" onClick={() => loadLocalSave()}>
         Load Local Game
       </button>
-    </div>
+    </SaveGameStyles>
   );
 };
+
+const SaveGameStyles = styled.div`
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  background: rgb(46, 46, 46);
+  padding: 10px;
+  border-radius: 5px;
+`;
 
 export default SaveGame;

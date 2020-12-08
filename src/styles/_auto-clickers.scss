@@ -11,37 +11,38 @@
 button {
   transition: all 0.05s ease-in-out;
 }
-.increment-button {
-  background: rgb(121, 184, 121);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-.decrement-button {
-  background: rgb(198, 100, 100);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
 
 .autoclick-item {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-}
-.autoclick-value {
-}
-.autoclick-price {
-  color: rgb(165, 165, 165);
-  font-size: 0.75rem;
+  .autoclick-autoPerSecValue {
+    font-weight: bold;
+  }
+  .autoclick-price {
+    color: rgb(165, 165, 165);
+    font-size: 0.75rem;
+  }
+  .increment-button {
+    background: rgb(121, 184, 121);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .decrement-button {
+    background: rgb(198, 100, 100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
 }
 
 .autoClick-disabled {

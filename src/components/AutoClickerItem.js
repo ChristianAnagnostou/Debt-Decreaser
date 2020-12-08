@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from "react";
 
 const AutoClickerItem = ({
-  value,
+  autoPerSecValue,
   UsDebt,
   numberWithCommas,
-  handleDecrementPerSec,
-  totalManualClicks,
+  increaseDebtPerSec,
+  decreaseDebtPerSec,
 }) => {
   const [amountOfThisClicker, setAmountOfThisClicker] = useState(0);
   const [autoClickerMounted, setAutoClickerMounted] = useState(false);
   const [costFactor, setCostFactor] = useState(1);
+  const maxDebtAllowed = 100000000000000;
 
-  const getCurrentPrice = () => {
-    return costFactor * value * 100;
+  const getPriceOfNextItem = () => {
+    return costFactor * autoPerSecValue * 100;
   };
 
-  const handleDecrementClick = () => {
+  const handleRemoveItem = () => {
     if (amountOfThisClicker > 0) {
-      handleDecrementPerSec({ clickValue: -value, costFactor: costFactor });
+      increaseDebtPerSec(autoPerSecValue);
       setCostFactor(costFactor / 1.12);
       setAmountOfThisClicker(amountOfThisClicker - 1);
     }
   };
 
-  const handleIncrementClick = () => {
-    if (getCurrentPrice() <= UsDebt) {
-      handleDecrementPerSec({ clickValue: value, costFactor: costFactor });
+  const handleAddItem = () => {
+    if (getPriceOfNextItem() + UsDebt < maxDebtAllowed) {
+      decreaseDebtPerSec(autoPerSecValue, getPriceOfNextItem());
       setCostFactor(costFactor * 1.12);
       setAmountOfThisClicker(amountOfThisClicker + 1);
     }
@@ -33,27 +34,33 @@ const AutoClickerItem = ({
 
   ///THIS IS SETTING TRUE EACH TIME UsDebt CHANGES - FIND A BETTER WAY
   useEffect(() => {
-    if (totalManualClicks >= value * 50) {
+    if (autoPerSecValue === 0.1) {
+      setAutoClickerMounted(true);
+    } else if (autoPerSecValue >=  0) {
       setAutoClickerMounted(true);
     }
-  }, [totalManualClicks, value]);
+  }, [autoPerSecValue]);
 
   return (
-    <div key={value}>
+    <div key={autoPerSecValue}>
       {autoClickerMounted && (
         <div className="autoclick-item">
           <div>
-            <p className="autoclick-value">-{numberWithCommas(value)} cps</p>
-            <p className="autoclick-price">(price: {numberWithCommas(value * 100 * costFactor)})</p>
+            <p className="autoclick-autoPerSecValue">-{numberWithCommas(autoPerSecValue)}</p>
+            <p className="autoclick-price">
+              (price: {numberWithCommas(getPriceOfNextItem())})
+            </p>
           </div>
           <button
-            onClick={handleIncrementClick}
-            className={`increment-button ${getCurrentPrice() > UsDebt && "autoClick-disabled"}`}
+            onClick={handleAddItem}
+            className={`increment-button ${
+              getPriceOfNextItem() + UsDebt > maxDebtAllowed && "autoClick-disabled"
+            }`}
           >
             +
           </button>
           <span>{amountOfThisClicker}</span>
-          <button onClick={handleDecrementClick} className="decrement-button">
+          <button onClick={handleRemoveItem} className="decrement-button">
             -
           </button>
         </div>
