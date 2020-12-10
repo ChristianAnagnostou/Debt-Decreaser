@@ -1,14 +1,17 @@
 .debt-info-container {
   position: absolute;
-  top: 16%;
-  right: 5%;
+  top: 1%;
+  right: 1%;
   background: rgb(46, 46, 46);
   cursor: pointer;
   padding: 10px;
   border-radius: 5px;
   color: white;
+  border: 3px solid rgb(114, 114, 114);
+  transition: all 0.5s ease;
   .debt-info-title{
     text-decoration: underline;
+    text-align: right;
   }
 }
 .DebtAPI {

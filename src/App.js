@@ -1,16 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useReducer } from "react";
+import axios from "axios";
 // Components
 import AutoClickers from "./components/AutoClickers";
-import DebtInfoContainer from "./components/DebtInfoContainer";
-import SaveGame from "./components/SaveGame";
+import DebtDisplay from "./components/DebtDisplay";
+// import DebtInfoContainer from "./components/DebtInfoContainer";
+// import SaveGame from "./components/SaveGame";
 // Styles
 import "./styles/app.css";
 
+export const DebtControlsContext = React.createContext();
+
+const initialDebtState = { debt: 0, debtPerSec: 11574 }; //14821
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "increase-debt":
+      return { ...state, debt: state.debt + action.value };
+    case "decrease-debt":
+      return { ...state, debt: state.debt - action.value };
+    case "increase-debtPerSec":
+      return { ...state, debtPerSec: state.debtPerSec + action.value };
+    case "decrease-debtPerSec":
+      return { ...state, debtPerSec: state.debtPerSec - action.value };
+    default:
+      return state;
+  }
+};
+
 function App() {
-  // State
-  //Declare an object as the state
-  const [UsDebt, setUsDebt] = useState(27000000000000);
-  const [debtPerSec, setDebtPerSec] = useState(14821);
+  // Reducer
+  const [debtControls, dispatchDebtControls] = useReducer(reducer, initialDebtState);
+  const { debt, debtPerSec } = debtControls;
 
   // Converts any number into one with commas
   const numberWithCommas = (amount) => {
@@ -18,69 +37,95 @@ function App() {
     return `$${s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
   };
 
-  // takes object from AutoClickerItem and sets debtPerSec and handles cost against debt
-  const increaseDebtPerSec = (perSecValue) => {
-    setDebtPerSec(debtPerSec + perSecValue);
-  };
-
-  const decreaseDebtPerSec = (perSecValue, priceOfItem) => {
-    setDebtPerSec(debtPerSec - perSecValue);
-    setUsDebt(UsDebt + priceOfItem);
-  };
-
+  // Inverval controlling perPerSecond updates
   useEffect(() => {
     const refreshFactor = 25;
     const incrementInterval = setInterval(() => {
       console.log("decrementing");
-      setUsDebt((prevUsDebt) => prevUsDebt + debtPerSec / refreshFactor);
+      dispatchDebtControls({ type: "increase-debt", value: debtPerSec / refreshFactor });
     }, 1000 / refreshFactor);
     return () => clearInterval(incrementInterval);
   }, [debtPerSec]);
 
+  const [info, setInfo] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios(
+          "https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/debt_to_penny?sort=-data_date"
+        );
+        setInfo(response.data.data[0]);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (info.tot_pub_debt_out_amt) {
+      dispatchDebtControls({ type: "increase-debt", value: Number(info.tot_pub_debt_out_amt) });
+    }
+  }, [info]);
+
   return (
-    <div className="App">
-      <header>
-        <p className="main-title">US Debt:</p>
-        <h1 className="main-UsDebt">{numberWithCommas(UsDebt)}</h1>
-        <p className="main-debtPerSec">{`${
-          debtPerSec > 0 ? "Increasing" : "Decreasing"
-        } US Debt by ${numberWithCommas(debtPerSec)} per second`}</p>
-      </header>
-      <div className="game-container">
+    <DebtControlsContext.Provider
+      value={{ debtState: debt, debtPerSecState: debtPerSec, debtDispatch: dispatchDebtControls }}
+    >
+      <div className="App">
+        {/* <DebtInfoContainer numberWithCommas={numberWithCommas} /> */}
+        <nav className="navbar">
+          <ul>
+            <li>Account</li>
+            <li>Settings</li>
+            <li>HiScores</li>
+            <li>Forums</li>
+            <li>Debt Data</li>
+          </ul>
+        </nav>
+        <DebtDisplay numberWithCommas={numberWithCommas} />
+
         <div className="debt-decreasors">
-          <AutoClickers
-            UsDebt={UsDebt}
-            increaseDebtPerSec={increaseDebtPerSec}
-            decreaseDebtPerSec={decreaseDebtPerSec}
-            numberWithCommas={numberWithCommas}
-          />
-          <div className="incoming-payments">Incoming Payments</div>
-          <div className="taxes">Taxes</div>
-        </div>
-        <div className="debt-increasors">
-          <div className="passives">Passives</div>
-          <div className="interest">Interest</div>
-          <div className="gov-spending">Govornment Spending</div>
-        </div>
-        <div className="game-updates-container">
-          Game Updates
-          <div className="game-updates">
-            <p>Hello young economist!</p>
-            <p>See that debt? Yeah that's really how big it is.</p>
-            <p>Currently, the US debt increases at over 1b per day.</p>
-            <p>Hence the 14,810 increase per second.</p>
+          <AutoClickers numberWithCommas={numberWithCommas} />
+          <div className="incoming-payments">
+            <h2>Incoming Payments</h2>
+          </div>
+          <div className="taxes">
+            <h2>Taxes</h2>
           </div>
         </div>
-      </div>
 
-      <DebtInfoContainer numberWithCommas={numberWithCommas} setUsDebt={setUsDebt} />
-      <SaveGame
-        UsDebt={UsDebt}
-        setUsDebt={setUsDebt}
-        debtPerSec={debtPerSec}
-        setDebtPerSec={setDebtPerSec}
-      />
-    </div>
+        <div className="debt-increasors">
+          <div className="passives">
+            <h2>Passives</h2>
+          </div>
+          <div className="interest">
+            <h2>Interest</h2>
+          </div>
+          <div className="gov-spending">
+            <h2>Govornment Spending</h2>
+          </div>
+        </div>
+
+        <div className="game-updates-container">
+          <div className="game-updates">
+            <p>Hello Mr. Economist!</p>
+            <p>See that big number? Yeah that's the current US debt.</p>
+            <p>It's increasing at 1b per day.</p>
+            <p>Your goal is to overturn the debt and bring it back down to 0.</p>
+            {debtPerSec < 0 && <p>Right on! You got the debt to start going down!</p>}
+          </div>
+        </div>
+
+        {/* <SaveGame
+          UsDebt={UsDebt}
+          setUsDebt={setUsDebt}
+          debtPerSec={debtPerSec}
+          setDebtPerSec={setDebtPerSec}
+        /> */}
+      </div>
+    </DebtControlsContext.Provider>
   );
 }
 

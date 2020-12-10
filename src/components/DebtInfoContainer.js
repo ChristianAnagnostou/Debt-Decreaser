@@ -6,7 +6,7 @@ function DebtInfoContainer({ numberWithCommas, setUsDebt }) {
 
   return (
     <div className="debt-info-container" onClick={() => setInfoIsActive(!infoIsActive)}>
-      <p className="debt-info-title">Info</p>
+      <p className="debt-info-title">Data</p>
       <DebtAPI
         numberWithCommas={numberWithCommas}
         setUsDebt={setUsDebt}

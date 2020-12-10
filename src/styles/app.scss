@@ -1,44 +1,60 @@
 @import "./auto-clickers";
-@import "./manual-clickers";
 @import "./debtApi";
+@import "./debt-display";
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar {
+    width: 2px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(211, 211, 211);
+  }
 }
 
 body {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
     Verdana, sans-serif;
-  background: linear-gradient(to bottom, rgb(255, 255, 255), grey);
+  background: rgb(27, 40, 40);
   min-height: 100vh;
-  padding: 3% 0;
   text-align: center;
+  position: relative;
 }
-header {
-  .main-title {
-    font-size: 5vw;
-  }
-  .main-UsDebt {
-    background: rgb(46, 46, 46);
-    color: white;
-    font-size: 4vw;
+
+.navbar {
+  width: 100%;
+  height: 3rem;
+  display: block;
+  background: rgb(46, 46, 46);
+  color: white;
+  ul {
+    display: flex;
     width: fit-content;
-    margin: auto;
-    padding: 1rem 2rem;
-    box-shadow: 0 0 20px grey;
-  }
-  .main-debtPerSec {
-    background: rgb(46, 46, 46);
-    color: white;
-    font-size: 1.5vw;
-    width: fit-content;
-    margin: 1rem auto 0;
-    padding: 1rem 2rem;
-    box-shadow: 0 0 20px grey;
+    height: inherit;
+    li {
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      list-style: none;
+      font-size: 1.2rem;
+      border-right: 1px solid white;
+      height: 100%;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background: rgb(97, 97, 97);
+        cursor: pointer;
+      }
+    }
   }
 }
+
 button {
   margin: 3px;
   padding: 8px;
@@ -56,74 +72,89 @@ button:active {
   transform: scale(1.05);
 }
 
-.game-container {
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  justify-content: flex-start;
-  width: 100%;
-  gap: 5px;
-  background: grey;
-}
 .debt-decreasors {
+  width: fit-content;
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  height: calc(100% - 3rem);
   flex: 1;
-  border: 5px solid black;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  justify-content: center;
+  flex-direction: column;
   > div {
-    min-height: 10vh;
-    min-width: 12vw;
+    flex: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    min-width: 20rem;
     background: rgb(46, 46, 46);
     color: white;
+    border-top: 2px solid white;
+    h2 {
+      position: sticky;
+      top: 0;
+      padding: 0.5rem 0;
+      background: rgb(91, 91, 91);
+      border-bottom: 2px solid black;
+    }
   }
 }
 .debt-increasors {
+  width: fit-content;
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  height: calc(100% - 3rem);
   flex: 1;
-  border: 5px solid black;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  justify-content: center;
+  flex-direction: column;
   > div {
     flex: 1;
-    min-height: 10vh;
-    min-width: 10vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    min-width: 20rem;
     background: rgb(46, 46, 46);
     color: white;
+    border-top: 2px solid white;
+    h2 {
+      position: sticky;
+      top: 0;
+      padding: 0.5rem 0;
+      background: rgb(91, 91, 91);
+      border-bottom: 2px solid black;
+    }
   }
 }
 
 .game-updates-container {
-  border: 5px solid black;
-  min-width: 25vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
+  max-width: calc(100% - 40rem);
+  height: 15rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  overflow-y: scroll;
+  border-top: 1px solid grey;
   .game-updates {
-    height: 95%;
-    width: 95%;
+    min-height: 100%;
+    width: 100%;
     background: rgb(46, 46, 46);
     display: flex;
+    gap: 15px;
+    padding: 10px;
     flex-direction: column;
     align-items: flex-end;
     justify-content: flex-end;
-    overflow: hidden;
     p {
-      height: fit-content;
-      width: fit-content;
       color: white;
       text-align: right;
-      margin: 0 1rem 1rem;
       padding: 5px;
       border-radius: 5px;
       background: grey;
     }
-    p:last-child{
-      background: rgb(71, 138, 71);
+    p:last-child {
+      background: rgb(196, 196, 196);
+      color: black;
     }
   }
 }

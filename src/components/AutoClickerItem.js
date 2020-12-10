@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { DebtControlsContext } from "../App";
 
-const AutoClickerItem = ({
-  autoPerSecValue,
-  UsDebt,
-  numberWithCommas,
-  increaseDebtPerSec,
-  decreaseDebtPerSec,
-}) => {
+const AutoClickerItem = ({ autoPerSecValue, numberWithCommas }) => {
+  //
+  const debtControlsContext = useContext(DebtControlsContext);
+  const { debtState, debtPerSecState, debtDispatch } = debtControlsContext;
+
   const [amountOfThisClicker, setAmountOfThisClicker] = useState(0);
   const [autoClickerMounted, setAutoClickerMounted] = useState(false);
   const [costFactor, setCostFactor] = useState(1);
@@ -18,28 +17,29 @@ const AutoClickerItem = ({
 
   const handleRemoveItem = () => {
     if (amountOfThisClicker > 0) {
-      increaseDebtPerSec(autoPerSecValue);
+      debtDispatch({ type: "increase-debtPerSec", value: autoPerSecValue });
       setCostFactor(costFactor / 1.12);
       setAmountOfThisClicker(amountOfThisClicker - 1);
     }
   };
 
   const handleAddItem = () => {
-    if (getPriceOfNextItem() + UsDebt < maxDebtAllowed) {
-      decreaseDebtPerSec(autoPerSecValue, getPriceOfNextItem());
+    if (getPriceOfNextItem() + debtState < maxDebtAllowed) {
+      debtDispatch({ type: "decrease-debtPerSec", value: autoPerSecValue });
+      debtDispatch({ type: "increase-debt", value: getPriceOfNextItem() });
       setCostFactor(costFactor * 1.12);
       setAmountOfThisClicker(amountOfThisClicker + 1);
     }
   };
 
-  ///THIS IS SETTING TRUE EACH TIME UsDebt CHANGES - FIND A BETTER WAY
+  ///THIS IS SETTING TRUE EACH TIME debtState CHANGES - FIND A BETTER WAY
   useEffect(() => {
     if (autoPerSecValue === 0.1) {
       setAutoClickerMounted(true);
-    } else if (autoPerSecValue >=  0) {
+    } else if (debtPerSecState >= 0) {
       setAutoClickerMounted(true);
     }
-  }, [autoPerSecValue]);
+  }, [autoPerSecValue, debtPerSecState]);
 
   return (
     <div key={autoPerSecValue}>
@@ -47,22 +47,22 @@ const AutoClickerItem = ({
         <div className="autoclick-item">
           <div>
             <p className="autoclick-autoPerSecValue">-{numberWithCommas(autoPerSecValue)}</p>
-            <p className="autoclick-price">
-              (price: {numberWithCommas(getPriceOfNextItem())})
-            </p>
+            <p className="autoclick-price">price: {numberWithCommas(getPriceOfNextItem())}</p>
           </div>
-          <button
-            onClick={handleAddItem}
-            className={`increment-button ${
-              getPriceOfNextItem() + UsDebt > maxDebtAllowed && "autoClick-disabled"
-            }`}
-          >
-            +
-          </button>
-          <span>{amountOfThisClicker}</span>
-          <button onClick={handleRemoveItem} className="decrement-button">
-            -
-          </button>
+          <div className="autoclick-button-container">
+            <button
+              onClick={handleAddItem}
+              className={`increment-button ${
+                getPriceOfNextItem() + debtState > maxDebtAllowed && "autoClick-disabled"
+              }`}
+            >
+              +
+            </button>
+            <span>{amountOfThisClicker}</span>
+            <button onClick={handleRemoveItem} className="decrement-button">
+              -
+            </button>
+          </div>
         </div>
       )}
     </div>

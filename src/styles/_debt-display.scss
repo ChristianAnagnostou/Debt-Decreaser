@@ -1,0 +1,26 @@
+header {
+  width: fit-content;
+  margin: auto;
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+  margin-top: 1rem;
+  background: grey;
+  .main-title {
+    font-size: 3rem;
+  }
+  .main-UsDebt {
+    background: rgb(46, 46, 46);
+    color: white;
+    font-size: 3rem;
+    width: fit-content;
+    margin: auto;
+    padding: 1rem 2rem;
+  }
+  .main-debtPerSec {
+    background: rgb(46, 46, 46);
+    color: white;
+    font-size: 1.2rem;
+    width: fit-content;
+    margin: 1rem auto 0;
+    padding: 0.5rem 1rem;
+  }
+}
