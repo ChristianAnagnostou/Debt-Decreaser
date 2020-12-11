@@ -100,65 +100,18 @@ button {
           transform: none;
 }
 
-.debt-info-container {
-  position: absolute;
-  top: 1%;
-  right: 1%;
-  background: #2e2e2e;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 5px;
-  color: white;
-  border: 3px solid #727272;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-}
-
-.debt-info-container .debt-info-title {
-  text-decoration: underline;
-  text-align: right;
-}
-
-.DebtAPI {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  bottom: 0;
-  text-align: left;
-  padding: 10px;
-  color: white;
-  line-height: 1.5rem;
-}
-
-.DebtAPI a {
-  color: grey;
-  float: right;
-  cursor: alias;
-}
-
-.display-none {
-  display: none;
-}
-
 header {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: calc(100% - 46%);
   margin: auto;
-  -webkit-box-shadow: 0 0 10px black;
-          box-shadow: 0 0 10px black;
-  margin-top: 1rem;
-  background: grey;
-}
-
-header .main-title {
-  font-size: 3rem;
+  background: #ededed;
+  height: 10rem;
+  padding: 10px;
 }
 
 header .main-UsDebt {
-  background: #2e2e2e;
+  background: #676767;
   color: white;
-  font-size: 3rem;
+  font-size: 2vw;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -167,14 +120,76 @@ header .main-UsDebt {
 }
 
 header .main-debtPerSec {
-  background: #2e2e2e;
+  background: #676767;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1vw;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   margin: 1rem auto 0;
   padding: 0.5rem 1rem;
+}
+
+.navbar {
+  width: 100%;
+  height: 3rem;
+  display: block;
+  background: #1d1d1d;
+  color: white;
+}
+
+.navbar ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: inherit;
+}
+
+.navbar ul li {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 2rem;
+  list-style: none;
+  font-size: 1.2rem;
+  border-right: 1px solid white;
+  height: 100%;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.navbar ul li:hover {
+  background: #616161;
+  cursor: pointer;
+}
+
+.DebtData {
+  display: inline-block;
+  position: absolute;
+  top: 3rem;
+  left: -1px;
+  padding: 5px;
+  background: #1d1d1d;
+  color: white;
+  line-height: 1.5rem;
+  width: 300px;
+  font-size: 1rem;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+.DebtData a {
+  color: grey;
+  float: right;
+  cursor: alias;
 }
 
 * {
@@ -206,45 +221,6 @@ body {
   position: relative;
 }
 
-.navbar {
-  width: 100%;
-  height: 3rem;
-  display: block;
-  background: #2e2e2e;
-  color: white;
-}
-
-.navbar ul {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: inherit;
-}
-
-.navbar ul li {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0 2rem;
-  list-style: none;
-  font-size: 1.2rem;
-  border-right: 1px solid white;
-  height: 100%;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-
-.navbar ul li:hover {
-  background: #616161;
-  cursor: pointer;
-}
-
 button {
   margin: 3px;
   padding: 8px;
@@ -268,10 +244,8 @@ button:active {
           transform: scale(1.05);
 }
 
-.debt-decreasors {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+.debt-decreasers {
+  width: 23%;
   position: absolute;
   top: 3rem;
   left: 0;
@@ -288,19 +262,19 @@ button:active {
           flex-direction: column;
 }
 
-.debt-decreasors > div {
+.debt-decreasers > div {
+  width: 100%;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   overflow-y: scroll;
   overflow-x: hidden;
-  min-width: 20rem;
   background: #2e2e2e;
   color: white;
   border-top: 2px solid white;
 }
 
-.debt-decreasors > div h2 {
+.debt-decreasers > div h2 {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -309,10 +283,8 @@ button:active {
   border-bottom: 2px solid black;
 }
 
-.debt-increasors {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+.debt-increasers {
+  width: 23%;
   position: absolute;
   top: 3rem;
   right: 0;
@@ -329,19 +301,19 @@ button:active {
           flex-direction: column;
 }
 
-.debt-increasors > div {
+.debt-increasers > div {
+  width: 100%;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   overflow-y: scroll;
   overflow-x: hidden;
-  min-width: 20rem;
   background: #2e2e2e;
   color: white;
   border-top: 2px solid white;
 }
 
-.debt-increasors > div h2 {
+.debt-increasers > div h2 {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -351,8 +323,8 @@ button:active {
 }
 
 .game-updates-container {
-  max-width: calc(100% - 40rem);
-  height: 15rem;
+  max-width: calc(100% - 46%);
+  height: 10rem;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -396,14 +368,44 @@ button:active {
   color: black;
 }
 
+.debt-graph-container {
+  margin: auto;
+  left: 0;
+  right: 0;
+  position: absolute;
+  width: calc(100% - 46%);
+  height: calc(100% - 10rem - 10rem - 3rem);
+  background: #ededed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.debt-graph-container .debt-graph {
+  border: 1px solid black;
+  height: 90%;
+  width: 90%;
+}
+
+.debt-graph-container .debt-graph .line-chart {
+  width: 100%;
+  height: 100%;
+}
+
 @media screen and (max-width: 768px) {
-  .debt-decreasors {
+  .debt-decreasers {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
   }
-  .debt-increasors {
+  .debt-increasers {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;

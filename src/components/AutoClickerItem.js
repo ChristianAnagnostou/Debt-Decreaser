@@ -18,7 +18,7 @@ const AutoClickerItem = ({ autoPerSecValue, numberWithCommas }) => {
   const handleRemoveItem = () => {
     if (amountOfThisClicker > 0) {
       debtDispatch({ type: "increase-debtPerSec", value: autoPerSecValue });
-      setCostFactor(costFactor / 1.12);
+      setCostFactor(costFactor / 1.08);
       setAmountOfThisClicker(amountOfThisClicker - 1);
     }
   };
@@ -27,7 +27,7 @@ const AutoClickerItem = ({ autoPerSecValue, numberWithCommas }) => {
     if (getPriceOfNextItem() + debtState < maxDebtAllowed) {
       debtDispatch({ type: "decrease-debtPerSec", value: autoPerSecValue });
       debtDispatch({ type: "increase-debt", value: getPriceOfNextItem() });
-      setCostFactor(costFactor * 1.12);
+      setCostFactor(costFactor * 1.08);
       setAmountOfThisClicker(amountOfThisClicker + 1);
     }
   };
@@ -36,7 +36,7 @@ const AutoClickerItem = ({ autoPerSecValue, numberWithCommas }) => {
   useEffect(() => {
     if (autoPerSecValue === 0.1) {
       setAutoClickerMounted(true);
-    } else if (debtPerSecState >= 0) {
+    } else if (11574 / debtPerSecState - 1 >= autoPerSecValue / 1000) {
       setAutoClickerMounted(true);
     }
   }, [autoPerSecValue, debtPerSecState]);

@@ -3,7 +3,8 @@ import axios from "axios";
 // Components
 import AutoClickers from "./components/AutoClickers";
 import DebtDisplay from "./components/DebtDisplay";
-// import DebtInfoContainer from "./components/DebtInfoContainer";
+import Navbar from "./components/Navbar";
+import DebtGraph from "./components/DebtGraph";
 // import SaveGame from "./components/SaveGame";
 // Styles
 import "./styles/app.css";
@@ -31,31 +32,21 @@ function App() {
   const [debtControls, dispatchDebtControls] = useReducer(reducer, initialDebtState);
   const { debt, debtPerSec } = debtControls;
 
-  // Converts any number into one with commas
-  const numberWithCommas = (amount) => {
-    let s = parseFloat(amount).toFixed(2);
-    return `$${s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-  };
+  //State
+  const [infoFromApi, setInfoFromApi] = useState();
 
-  // Inverval controlling perPerSecond updates
-  useEffect(() => {
-    const refreshFactor = 25;
-    const incrementInterval = setInterval(() => {
-      console.log("decrementing");
-      dispatchDebtControls({ type: "increase-debt", value: debtPerSec / refreshFactor });
-    }, 1000 / refreshFactor);
-    return () => clearInterval(incrementInterval);
-  }, [debtPerSec]);
-
-  const [info, setInfo] = useState([]);
-
+  //Fetch information about current US Debt
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios(
           "https://www.transparency.treasury.gov/services/api/fiscal_service/v1/accounting/od/debt_to_penny?sort=-data_date"
         );
-        setInfo(response.data.data[0]);
+        setInfoFromApi(response.data.data);
+        dispatchDebtControls({
+          type: "increase-debt",
+          value: Number(response.data.data[0].tot_pub_debt_out_amt),
+        });
       } catch (e) {
         console.log(e);
       }
@@ -63,30 +54,33 @@ function App() {
     fetchData();
   }, []);
 
+  // Inverval controlling perPerSecond updates
   useEffect(() => {
-    if (info.tot_pub_debt_out_amt) {
-      dispatchDebtControls({ type: "increase-debt", value: Number(info.tot_pub_debt_out_amt) });
-    }
-  }, [info]);
+    const refreshFactor = 14;
+    const incrementInterval = setInterval(() => {
+      console.log("decrementing");
+      dispatchDebtControls({ type: "increase-debt", value: debtPerSec / refreshFactor });
+    }, 1000 / refreshFactor);
+    return () => clearInterval(incrementInterval);
+  }, [debtPerSec]);
+
+  // Converts any number into one with commas
+  const numberWithCommas = (amount) => {
+    let s = parseFloat(amount).toFixed(2);
+    return `$${s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  };
 
   return (
     <DebtControlsContext.Provider
       value={{ debtState: debt, debtPerSecState: debtPerSec, debtDispatch: dispatchDebtControls }}
     >
       <div className="App">
-        {/* <DebtInfoContainer numberWithCommas={numberWithCommas} /> */}
-        <nav className="navbar">
-          <ul>
-            <li>Account</li>
-            <li>Settings</li>
-            <li>HiScores</li>
-            <li>Forums</li>
-            <li>Debt Data</li>
-          </ul>
-        </nav>
+        <Navbar numberWithCommas={numberWithCommas} debtInfo={infoFromApi} />
         <DebtDisplay numberWithCommas={numberWithCommas} />
-
-        <div className="debt-decreasors">
+        <div className="debt-graph-container">
+          <div className="debt-graph">{infoFromApi && <DebtGraph infoFromApi={infoFromApi} />}</div>
+        </div>
+        <div className="debt-decreasers">
           <AutoClickers numberWithCommas={numberWithCommas} />
           <div className="incoming-payments">
             <h2>Incoming Payments</h2>
@@ -96,9 +90,13 @@ function App() {
           </div>
         </div>
 
-        <div className="debt-increasors">
+        <div className="debt-increasers">
           <div className="passives">
-            <h2>Passives</h2>
+            <h2>Investments</h2>
+            <div className="investment-items">
+              <p>Enact $2 Trillion Relief Package</p>
+              <p>Offer Free Public College</p>
+            </div>
           </div>
           <div className="interest">
             <h2>Interest</h2>
@@ -108,7 +106,10 @@ function App() {
           </div>
         </div>
 
-        <div className="game-updates-container">
+        <div
+          className="game-updates-container"
+          onClick={() => window.scrollTo(0, document.body.scrollHeight)}
+        >
           <div className="game-updates">
             <p>Hello Mr. Economist!</p>
             <p>See that big number? Yeah that's the current US debt.</p>
